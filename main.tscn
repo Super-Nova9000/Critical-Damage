@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://didgjrti8ympa"]
+
+[ext_resource type="PackedScene" uid="uid://bjcwdiktio3ff" path="res://bucket.tscn" id="1_jso4j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xketa"]
+size = Vector2(1921, 20)
+
+[node name="Main" type="Node"]
+
+[node name="Bucket" parent="." instance=ExtResource("1_jso4j")]
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(960, 1000)
+
+[node name="ColorRect" type="ColorRect" parent="Area2D"]
+offset_left = -959.0
+offset_top = -10.0
+offset_right = 960.0
+offset_bottom = 10.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_xketa")
+
+[node name="Area2D2" type="Area2D" parent="."]
+position = Vector2(2000, 800)
+
+[node name="ColorRect" type="ColorRect" parent="Area2D2"]
+offset_left = -959.0
+offset_top = -10.0
+offset_right = 960.0
+offset_bottom = 10.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+shape = SubResource("RectangleShape2D_xketa")
+
+[node name="Area2D3" type="Area2D" parent="."]
+position = Vector2(2500, 600)
+
+[node name="ColorRect" type="ColorRect" parent="Area2D3"]
+offset_left = -959.0
+offset_top = -10.0
+offset_right = 960.0
+offset_bottom = 10.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3"]
+shape = SubResource("RectangleShape2D_xketa")
