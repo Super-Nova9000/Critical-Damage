@@ -30,7 +30,7 @@ public partial class Bucket : Area2D
 		}
 		else if (Input.IsActionPressed("move_left") && !onGround) //When A key pressed and NOT on ground
 		{
-			velocity.X += (float)(-0.5 * delta); //Slowly change velocity
+			velocity.X += (float)(-0.75 * delta); //Slowly change velocity
 			velocity.X = Mathf.Clamp(velocity.X, -1, 1); //Clamp velocity
 		}
 
@@ -40,7 +40,7 @@ public partial class Bucket : Area2D
 		}
 		else if (Input.IsActionPressed("move_right") && !onGround) //When D key pressed and NOT on ground
 		{
-			velocity.X += (float)(0.5 * delta); //Slowly change velocity
+			velocity.X += (float)(0.75 * delta); //Slowly change velocity
 			velocity.X = Mathf.Clamp(velocity.X, -1, 1); //Clamp velocity
 		}
 
@@ -81,13 +81,19 @@ public partial class Bucket : Area2D
 		}
 	}
 
-	private void _on_area_entered(Area2D area) //When entering area
+	private void _on_platform_top_hit()
 	{
+		GD.Print("TopHit");
 		onGround = true;
-		GD.Print(Position.Y);
 	}
 	private void _on_area_exited(Area2D area) //When leaving area
 	{
 		onGround = false;
+	}
+
+
+	private void _on_platform_bot_hit()
+	{
+		GD.Print("BotHit");
 	}
 }

@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://bci1h10hevol5"]
+
+[ext_resource type="Script" path="res://code/platform/PlatHalves.cs" id="1_it4vw"]
+[ext_resource type="Script" path="res://code/platform/PlatMast.cs" id="1_oyq73"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3dyfy"]
+size = Vector2(96, 45.8125)
+
+[node name="Platform" type="Node2D"]
+script = ExtResource("1_oyq73")
+
+[node name="TopHalf" type="Area2D" parent="."]
+script = ExtResource("1_it4vw")
+
+[node name="TopColor" type="ColorRect" parent="TopHalf"]
+offset_left = -48.0
+offset_top = -48.0
+offset_right = 48.0
+
+[node name="TopCollide" type="CollisionShape2D" parent="TopHalf"]
+position = Vector2(0, -25)
+shape = SubResource("RectangleShape2D_3dyfy")
+
+[node name="BotHalf" type="Area2D" parent="."]
+script = ExtResource("1_it4vw")
+
+[node name="BotColor" type="ColorRect" parent="BotHalf"]
+offset_left = -48.0
+offset_right = 48.0
+offset_bottom = 48.0
+
+[node name="BotCollide" type="CollisionShape2D" parent="BotHalf"]
+position = Vector2(0, 24.8125)
+shape = SubResource("RectangleShape2D_3dyfy")
+
+[connection signal="Hit" from="TopHalf" to="." method="_on_top_half_hit"]
+[connection signal="area_entered" from="TopHalf" to="TopHalf" method="_on_area_entered"]
+[connection signal="Hit" from="BotHalf" to="." method="_on_bot_half_hit"]
+[connection signal="area_entered" from="BotHalf" to="TopHalf" method="_on_bot_half_area_entered"]
