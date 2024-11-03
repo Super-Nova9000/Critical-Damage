@@ -1,11 +1,10 @@
 using Godot;
 using System;
 
-public partial class PlatHalves : Area2D
+public partial class Platform : Area2D
 {
-	[Signal]
-	public delegate void HitEventHandler();
-
+	[Export]
+	public int contactPos { get; set; } = 929;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -16,8 +15,9 @@ public partial class PlatHalves : Area2D
 	{
 	}
 
-	public void _on_area_entered(Area2D area)
+	private void _on_area_entered(Area2D area)
 	{
-		EmitSignal(SignalName.Hit);
+		contactPos = ((int)Position.Y - 97);
+		GD.Print(contactPos);
 	}
 }

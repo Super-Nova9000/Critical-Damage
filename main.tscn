@@ -12,6 +12,3 @@ PlatformScene = ExtResource("2_y32g3")
 
 [node name="Platform" parent="." instance=ExtResource("2_y32g3")]
 position = Vector2(751, 799)
-
-[connection signal="BotHit" from="Platform" to="Bucket" method="_on_platform_bot_hit"]
-[connection signal="TopHit" from="Platform" to="Bucket" method="_on_platform_top_hit"]

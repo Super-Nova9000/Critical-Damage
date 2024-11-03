@@ -27,7 +27,7 @@ public partial class Main : Node
 		for (int i = 0; i < length; i++) //Loop for length
 		{
 			GD.Print("Piece " + (i + 1));
-			PlatMast platform = PlatformScene.Instantiate<PlatMast>(); //Create new instance of a platform piece
+			Platform platform = PlatformScene.Instantiate<Platform>(); //Create new instance of a platform piece
 
 			int placeX = X + (i * 96); //Make sure next piece is placed next to exisiting piece
 			int placeY = Y;
