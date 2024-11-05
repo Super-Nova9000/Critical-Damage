@@ -6,13 +6,12 @@ public partial class Bucket : Node2D
 
 	[Signal]
 	public delegate void HitEventHandler();
-
 	[Export]
 	public int gravity = 1; //Gravity, global value
 	[Export]
 	public int bSpeed = 400; //Bucket's speed
 
-
+	public int yTarget;
 
 	private Vector2 velocity; //Create velocity with data type Vector2
 	private bool onBot = false; //When lower hitbox
@@ -90,8 +89,8 @@ public partial class Bucket : Node2D
 	{
 		GD.Print("BotHit");
 		onBot = true;
-		GD.Print(contactPos);
-		Position = new Godot.Vector2(Position.X, contactPos);
+		GD.Print("bucket " + yTarget);
+		Position = new Godot.Vector2(Position.X, yTarget);
 	}
 	private void _on_bot_area_exited(Area2D area) //When leaving area
 	{
@@ -101,12 +100,9 @@ public partial class Bucket : Node2D
 	private void _on_top_area_entered(Area2D area)
 	{
 		onTop = true;
-		GD.Print("TopHit");
-		GD.Print(velocity.Y);
 		if (velocity.Y < 0)
 		{
 			velocity.Y = (-1) * velocity.Y;
-			GD.Print(velocity.Y);
 		}
 	}
 	private void _on_top_area_exited(Area2D area) //When leaving area
@@ -117,10 +113,7 @@ public partial class Bucket : Node2D
 	private void _on_right_area_entered(Area2D area)
 	{
 		onRight = true;
-		GD.Print("RightHit");
-		GD.Print(velocity.X);
 		velocity.X = (-1) * velocity.X;
-		GD.Print(velocity.X);
 
 	}
 	private void _on_right_area_exited(Area2D area) //When leaving area
@@ -131,19 +124,10 @@ public partial class Bucket : Node2D
 	private void _on_left_area_entered(Area2D area)
 	{
 		onLeft = true;
-		GD.Print("LeftHit");
-		GD.Print(velocity.X);
 		velocity.X = (-1) * velocity.X;
-		GD.Print(velocity.X);
 	}
 	private void _on_left_area_exited(Area2D area) //When leaving area
 	{
 		onLeft = false;
-	}
-
-
-	private void _on_platform_bot_hit(Area2D area)
-	{
-		GD.Print("BotHit");
 	}
 }
