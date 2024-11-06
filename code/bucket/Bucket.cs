@@ -55,7 +55,7 @@ public partial class Bucket : Node2D
 
 		if (Input.IsActionPressed("jump") && onBot) //When space pressed
 		{
-			velocity.Y = -1; //Set vertical velocity
+			velocity.Y = (float)-1.5; //Set vertical velocity
 		}
 		else if (!onBot) //If not on ground
 		{
@@ -85,10 +85,11 @@ public partial class Bucket : Node2D
 		}
 	}
 
-	private void _on_bot_area_entered(Area2D area)
+	private async void _on_bot_area_entered(Area2D area)
 	{
 		GD.Print("BotHit");
 		onBot = true;
+		await ToSignal(GetTree().CreateTimer(0.01f), SceneTreeTimer.SignalName.Timeout);
 		GD.Print("bucket " + yTarget);
 		Position = new Godot.Vector2(Position.X, yTarget);
 	}
