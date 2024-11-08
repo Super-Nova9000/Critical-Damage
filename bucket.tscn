@@ -33,6 +33,7 @@ size = Vector2(76, 9.5)
 [node name="Bucket" type="Node2D"]
 position = Vector2(960, 540)
 script = ExtResource("1_xvxn6")
+metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_5mn4u")

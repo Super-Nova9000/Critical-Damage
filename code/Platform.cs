@@ -22,6 +22,5 @@ public partial class Platform : Area2D
 	{
 		contactPos = ((int)Position.Y - 97);
 		Player.yTarget = contactPos;
-		GD.Print("platform" + contactPos);
 	}
 }
