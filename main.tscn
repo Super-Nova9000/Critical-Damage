@@ -11,4 +11,49 @@ PlatformScene = ExtResource("2_y32g3")
 [node name="Bucket" parent="." instance=ExtResource("1_jso4j")]
 
 [node name="Platform" parent="." instance=ExtResource("2_y32g3")]
-position = Vector2(751, 799)
+position = Vector2(800, 800)
+
+[node name="Platform3" parent="." instance=ExtResource("2_y32g3")]
+position = Vector2(800, 704)
+
+[node name="Platform5" parent="." instance=ExtResource("2_y32g3")]
+position = Vector2(800, 608)
+
+[node name="Platform7" parent="." instance=ExtResource("2_y32g3")]
+position = Vector2(800, 512)
+
+[node name="Platform9" parent="." instance=ExtResource("2_y32g3")]
+position = Vector2(800, 416)
+
+[node name="Platform11" parent="." instance=ExtResource("2_y32g3")]
+position = Vector2(800, 320)
+
+[node name="Platform13" parent="." instance=ExtResource("2_y32g3")]
+position = Vector2(800, 224)
+
+[node name="Platform15" parent="." instance=ExtResource("2_y32g3")]
+position = Vector2(800, 128)
+
+[node name="Platform2" parent="." instance=ExtResource("2_y32g3")]
+position = Vector2(1150, 800)
+
+[node name="Platform4" parent="." instance=ExtResource("2_y32g3")]
+position = Vector2(1150, 704)
+
+[node name="Platform6" parent="." instance=ExtResource("2_y32g3")]
+position = Vector2(1150, 608)
+
+[node name="Platform8" parent="." instance=ExtResource("2_y32g3")]
+position = Vector2(1150, 512)
+
+[node name="Platform10" parent="." instance=ExtResource("2_y32g3")]
+position = Vector2(1150, 416)
+
+[node name="Platform12" parent="." instance=ExtResource("2_y32g3")]
+position = Vector2(1150, 320)
+
+[node name="Platform14" parent="." instance=ExtResource("2_y32g3")]
+position = Vector2(1150, 224)
+
+[node name="Platform16" parent="." instance=ExtResource("2_y32g3")]
+position = Vector2(1150, 128)

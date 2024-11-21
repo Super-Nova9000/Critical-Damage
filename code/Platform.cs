@@ -20,7 +20,7 @@ public partial class Platform : Area2D
 
 	private void _on_area_entered(Area2D area)
 	{
-		contactPos = ((int)Position.Y - 97);
-		Player.yTarget = contactPos;
+		Player.hitPos[0] = (int)Position.X;
+		Player.hitPos[1] = (int)Position.Y;
 	}
 }

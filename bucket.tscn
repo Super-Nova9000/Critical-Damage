@@ -1,11 +1,29 @@
-[gd_scene load_steps=9 format=3 uid="uid://bjcwdiktio3ff"]
+[gd_scene load_steps=11 format=3 uid="uid://bjcwdiktio3ff"]
 
 [ext_resource type="Texture2D" uid="uid://phqdrdc6oncx" path="res://assets/bucket/bucket-walk-1.png" id="1_rac64"]
 [ext_resource type="Script" path="res://code/bucket/Bucket.cs" id="1_xvxn6"]
 [ext_resource type="Texture2D" uid="uid://xrtsathsfra" path="res://assets/bucket/bucket-walk-2.png" id="2_fvupt"]
+[ext_resource type="Texture2D" uid="uid://15ewuwdm12th" path="res://assets/bucket/bucket-fall.png" id="2_xxgki"]
+[ext_resource type="Texture2D" uid="uid://darsoq23jq5bc" path="res://assets/bucket/bucket-stand.png" id="3_h4t58"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5mn4u"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_xxgki")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_h4t58")
+}],
+"loop": true,
+"name": &"stand",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("1_rac64")
@@ -33,18 +51,16 @@ size = Vector2(76, 9.5)
 [node name="Bucket" type="Node2D"]
 position = Vector2(960, 540)
 script = ExtResource("1_xvxn6")
-metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_5mn4u")
-animation = &"walk"
-frame = 1
-frame_progress = 0.33539
+animation = &"fall"
 
 [node name="TopHit" type="Area2D" parent="."]
 
 [node name="TopHit" type="CollisionShape2D" parent="TopHit"]
 position = Vector2(0, -45.75)
+scale = Vector2(0.7, 1)
 shape = SubResource("RectangleShape2D_3uj5f")
 
 [node name="LeftHit" type="Area2D" parent="."]
@@ -52,6 +68,7 @@ shape = SubResource("RectangleShape2D_3uj5f")
 [node name="LeftHit" type="CollisionShape2D" parent="LeftHit"]
 position = Vector2(-45.25, 0)
 rotation = 1.5708
+scale = Vector2(0.7, 1)
 shape = SubResource("RectangleShape2D_b2xce")
 
 [node name="RightHit" type="Area2D" parent="."]
@@ -59,6 +76,7 @@ shape = SubResource("RectangleShape2D_b2xce")
 [node name="RightHit" type="CollisionShape2D" parent="RightHit"]
 position = Vector2(45.25, 0)
 rotation = 1.5708
+scale = Vector2(0.7, 1)
 shape = SubResource("RectangleShape2D_vaf4w")
 
 [node name="BotHit" type="Area2D" parent="."]
