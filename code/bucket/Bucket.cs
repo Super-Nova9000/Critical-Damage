@@ -11,13 +11,14 @@ public partial class Bucket : Node2D
 	[Export]
 	public int bSpeed = 400; //Bucket's speed
 
-	public int yTarget;
 
+	public int[] hitPos = new int[2];
 	private Vector2 velocity; //Create velocity with data type Vector2
 	private bool onBot = false; //When lower hitbox
-	private bool onTop = false; //When top hitbox
 	private bool onLeft = false; //When left hitbox
 	private bool onRight = false; //When right hitbox
+	private bool onTop = false; //When right hitbox
+
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -26,8 +27,33 @@ public partial class Bucket : Node2D
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public async override void _Process(double delta)
 	{
+		if (onTop)
+		{
+			velocity.Y = (-1) * velocity.Y; //invert vertical velocity
+			onTop = false;
+			onRight = false;
+			onLeft = false;
+		}
+		else if (onLeft && !onBot && velocity.X < 0)
+		{
+			Position = new Godot.Vector2(hitPos[0] + 98, Position.Y);
+			velocity.X = velocity.X * (float)-0.75;
+			onBot = false;
+		}
+		else if (onRight && !onBot && velocity.X > 0)
+		{
+			Position = new Godot.Vector2(hitPos[0] - 98, Position.Y);
+			velocity.X = velocity.X * (float)-0.75;
+			onBot = false;
+		}
+		else if (onBot && !(onLeft || onRight))
+		{
+			await ToSignal(GetTree().CreateTimer(0.01f), SceneTreeTimer.SignalName.Timeout); //Delay 0.01s
+			Position = new Godot.Vector2(Position.X, hitPos[1] - 97); //Snap to top of platform
+		}
+
 		if (Input.IsActionPressed("move_left") && onBot && !onLeft) //When A key pressed
 		{
 			velocity.X = -1; //Set X velocity
@@ -71,20 +97,29 @@ public partial class Bucket : Node2D
 
 		var bucketAnimate = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
-		if (velocity.X != 0)
+		if (velocity.Y < 0) //If lateral movement
+		{
+			bucketAnimate.Play();
+			bucketAnimate.Animation = "fall";
+			bucketAnimate.FlipV = false; //Don't flip vartically
+
+			bucketAnimate.FlipH = velocity.X < 0; //If moving left, flip sprite
+		}
+		else if (velocity.X != 0) //If lateral movement
 		{
 			bucketAnimate.Play();
 			bucketAnimate.Animation = "walk";
-			bucketAnimate.FlipV = false;
+			bucketAnimate.FlipV = false; //Don't flip vartically
 
-			bucketAnimate.FlipH = velocity.X < 0;
+			bucketAnimate.FlipH = velocity.X < 0; //If moving left, flip sprite
 		}
 		else
 		{
-			bucketAnimate.Stop();
+			bucketAnimate.Animation = "stand"; //Stop animation if not moving laterally
 		}
 	}
 
+<<<<<<< HEAD
 	private async void _on_bot_area_entered(Area2D area)
 	{
 		GD.Print("BotHit");
@@ -92,32 +127,31 @@ public partial class Bucket : Node2D
 		await ToSignal(GetTree().CreateTimer(0.01f), SceneTreeTimer.SignalName.Timeout);
 		GD.Print("bucket " + yTarget);
 		Position = new Godot.Vector2(Position.X, yTarget);
-	}
-	private void _on_bot_area_exited(Area2D area) //When leaving area
+=======
+	private void _on_bot_area_entered(Area2D area) //If lower hitbox hits
 	{
-		onBot = false;
+		onBot = true; //Disable gravity while on ground
+>>>>>>> 85c1de641d3604480af0af9a988b6b199f287db2
+	}
+	private void _on_bot_area_exited(Area2D area) //When lower hitbox leaves
+	{
+		onBot = false; //Enable gravity while NOT on ground
 	}
 
-	private void _on_top_area_entered(Area2D area)
+	private void _on_top_area_entered(Area2D area) //If hit head
 	{
 		onTop = true;
-		if (velocity.Y < 0)
-		{
-			velocity.Y = (-1) * velocity.Y;
-		}
-	}
-	private void _on_top_area_exited(Area2D area) //When leaving area
+	} //If hit head, and moving up, invert Y velocity
+	private void _on_top_area_exited(Area2D area) //If hit head
 	{
 		onTop = false;
-	}
+	} //If hit head, and moving up, invert Y velocity
 
 	private void _on_right_area_entered(Area2D area)
 	{
 		onRight = true;
-		velocity.X = (-1) * velocity.X;
-
-	}
-	private void _on_right_area_exited(Area2D area) //When leaving area
+	} //If hit right side, invert lateral velocity if in air, and stop right movement
+	private void _on_right_area_exited(Area2D area)
 	{
 		onRight = false;
 	}
@@ -125,9 +159,8 @@ public partial class Bucket : Node2D
 	private void _on_left_area_entered(Area2D area)
 	{
 		onLeft = true;
-		velocity.X = (-1) * velocity.X;
-	}
-	private void _on_left_area_exited(Area2D area) //When leaving area
+	} //If hit left side, invert lateral velocity if in air, and stop left movement
+	private void _on_left_area_exited(Area2D area)
 	{
 		onLeft = false;
 	}

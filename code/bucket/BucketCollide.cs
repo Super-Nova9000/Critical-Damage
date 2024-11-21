@@ -5,8 +5,6 @@ public partial class BucketCollide : Area2D
 {
 	[Signal]
 	public delegate void HitEventHandler();
-	[Signal]
-	public delegate void NotHitEventHandler();
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -21,10 +19,5 @@ public partial class BucketCollide : Area2D
 	private void _on_area_entered(Area2D area)
 	{
 		EmitSignal(SignalName.Hit);
-	}
-
-	private void _on_area_exited(Area2D area)
-	{
-		EmitSignal(SignalName.NotHit);
 	}
 }
