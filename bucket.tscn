@@ -1,95 +1,51 @@
-[gd_scene load_steps=11 format=3 uid="uid://bjcwdiktio3ff"]
+[gd_scene load_steps=8 format=3 uid="uid://ljxqg7v4sl64"]
 
-[ext_resource type="Texture2D" uid="uid://phqdrdc6oncx" path="res://assets/bucket/bucket-walk-1.png" id="1_rac64"]
-[ext_resource type="Script" path="res://code/bucket/Bucket.cs" id="1_xvxn6"]
-[ext_resource type="Texture2D" uid="uid://xrtsathsfra" path="res://assets/bucket/bucket-walk-2.png" id="2_fvupt"]
-[ext_resource type="Texture2D" uid="uid://15ewuwdm12th" path="res://assets/bucket/bucket-fall.png" id="2_xxgki"]
-[ext_resource type="Texture2D" uid="uid://darsoq23jq5bc" path="res://assets/bucket/bucket-stand.png" id="3_h4t58"]
+[ext_resource type="Script" path="res://code/Bucket.cs" id="1_mrqke"]
+[ext_resource type="Texture2D" uid="uid://15ewuwdm12th" path="res://assets/bucket/bucket-fall.png" id="2_bq2d4"]
+[ext_resource type="Texture2D" uid="uid://darsoq23jq5bc" path="res://assets/bucket/bucket-stand.png" id="3_qdrpi"]
+[ext_resource type="Texture2D" uid="uid://phqdrdc6oncx" path="res://assets/bucket/bucket-walk-1.png" id="4_7wjao"]
+[ext_resource type="Texture2D" uid="uid://xrtsathsfra" path="res://assets/bucket/bucket-walk-2.png" id="5_pd545"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_5mn4u"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_07bq2"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_xxgki")
+"texture": ExtResource("2_bq2d4")
 }],
 "loop": true,
-"name": &"fall",
+"name": &"Fall",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_h4t58")
+"texture": ExtResource("3_qdrpi")
 }],
 "loop": true,
-"name": &"stand",
+"name": &"Stand",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_rac64")
+"texture": ExtResource("4_7wjao")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_fvupt")
+"texture": ExtResource("5_pd545")
 }],
 "loop": true,
-"name": &"walk",
+"name": &"Walk",
 "speed": 2.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3uj5f"]
-size = Vector2(76, 9.5)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pu8pu"]
+size = Vector2(96, 96)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_b2xce"]
-size = Vector2(76, 9.5)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vaf4w"]
-size = Vector2(76, 9.5)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bg6si"]
-size = Vector2(76, 9.5)
-
-[node name="Bucket" type="Node2D"]
-position = Vector2(960, 540)
-script = ExtResource("1_xvxn6")
+[node name="Bucket" type="CharacterBody2D"]
+floor_snap_length = 32.0
+script = ExtResource("1_mrqke")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_5mn4u")
-animation = &"fall"
+sprite_frames = SubResource("SpriteFrames_07bq2")
+animation = &"Walk"
 
-[node name="TopHit" type="Area2D" parent="."]
-
-[node name="TopHit" type="CollisionShape2D" parent="TopHit"]
-position = Vector2(0, -45.75)
-scale = Vector2(0.7, 1)
-shape = SubResource("RectangleShape2D_3uj5f")
-
-[node name="LeftHit" type="Area2D" parent="."]
-
-[node name="LeftHit" type="CollisionShape2D" parent="LeftHit"]
-position = Vector2(-45.25, 0)
-rotation = 1.5708
-scale = Vector2(0.7, 1)
-shape = SubResource("RectangleShape2D_b2xce")
-
-[node name="RightHit" type="Area2D" parent="."]
-
-[node name="RightHit" type="CollisionShape2D" parent="RightHit"]
-position = Vector2(45.25, 0)
-rotation = 1.5708
-scale = Vector2(0.7, 1)
-shape = SubResource("RectangleShape2D_vaf4w")
-
-[node name="BotHit" type="Area2D" parent="."]
-
-[node name="BotHit" type="CollisionShape2D" parent="BotHit"]
-position = Vector2(0, 45.75)
-shape = SubResource("RectangleShape2D_bg6si")
-
-[connection signal="area_entered" from="TopHit" to="." method="_on_top_area_entered"]
-[connection signal="area_exited" from="TopHit" to="." method="_on_top_area_exited"]
-[connection signal="area_entered" from="LeftHit" to="." method="_on_left_area_entered"]
-[connection signal="area_exited" from="LeftHit" to="." method="_on_left_area_exited"]
-[connection signal="area_entered" from="RightHit" to="." method="_on_right_area_entered"]
-[connection signal="area_exited" from="RightHit" to="." method="_on_right_area_exited"]
-[connection signal="area_entered" from="BotHit" to="." method="_on_bot_area_entered"]
-[connection signal="area_exited" from="BotHit" to="." method="_on_bot_area_exited"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pu8pu")
