@@ -13,11 +13,22 @@ public partial class Bucket : CharacterBody2D
 		Vector2 velocity = Velocity;
 
 		// Add the gravity.
-		if (!IsOnFloor())
+		if (!IsOnFloor() && !IsOnWall())
 		{
 			velocity += GetGravity() * (float)delta;
 		}
-		GD.Print(velocity.Y);
+		else if (!IsOnFloor() && IsOnWall())
+		{
+			if (Velocity.Y < 0)
+			{
+				velocity += GetGravity() * (float)delta;
+			}
+			else
+			{
+				velocity += (GetGravity() / 2) * (float)delta;
+			}
+			velocity.Y = Mathf.Clamp(velocity.Y, 0.5f * JumpVelocity, -JumpVelocity);
+		}
 
 		// Handle Jump.
 		if (Input.IsActionJustPressed("jump") && IsOnFloor())
@@ -26,8 +37,19 @@ public partial class Bucket : CharacterBody2D
 		}
 		else if (Input.IsActionJustPressed("jump") && IsOnWall())
 		{
-			velocity.Y = JumpVelocity * (float)1;
-			velocity.X = JumpVelocity * (float)0.5;
+			var wallPos = GetLastSlideCollision().GetPosition();
+
+			velocity.Y = JumpVelocity;
+			if (wallPos.X < Position.X)
+			{
+				velocity.X = JumpVelocity * (float)-0.5;
+				GD.Print("Left");
+			}
+			else
+			{
+				velocity.X = JumpVelocity * (float)0.5;
+				GD.Print("Right");
+			}
 		}
 
 		// Get the input direction and handle the movement/deceleration.
