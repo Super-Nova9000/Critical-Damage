@@ -12,87 +12,93 @@ public partial class Bucket : CharacterBody2D
 	{
 		Vector2 velocity = Velocity;
 
-		// Add the gravity.
-		if (!IsOnFloor() && !IsOnWall())
+		//Gravity
+		if (!IsOnFloor() && !IsOnWall()) //If not on floor AND not on ground
 		{
-			velocity += GetGravity() * (float)delta;
+			velocity += GetGravity() * (float)delta; //Accelerate under gravity
 		}
-		else if (!IsOnFloor() && IsOnWall())
+		else if (!IsOnFloor() && IsOnWall()) //If not on floor BUT on ground
 		{
-			if (Velocity.Y < 0)
+			if (Velocity.Y < 0) //If moving upwards
 			{
-				velocity += GetGravity() * (float)delta;
+				velocity += GetGravity() * (float)delta; //Accelerate under gravity
 			}
-			else
+			else //If moving downwards
 			{
-				velocity += (GetGravity() / 2) * (float)delta;
+				velocity += (GetGravity() / 2) * (float)delta; //Accelerate under half gravity
 			}
-			velocity.Y = Mathf.Clamp(velocity.Y, 0.5f * JumpVelocity, -JumpVelocity);
+			velocity.Y = Mathf.Clamp(velocity.Y, 0.5f * JumpVelocity, -JumpVelocity); //Clamp velocity
 		}
 
-		// Handle Jump.
-		if (Input.IsActionJustPressed("jump") && IsOnFloor())
+		//Jumping
+		if (Input.IsActionJustPressed("jump") && IsOnFloor()) //If on floor AND jump attempted
 		{
-			velocity.Y = JumpVelocity;
+			velocity.Y = JumpVelocity; //Jump
 		}
-		else if (Input.IsActionJustPressed("jump") && IsOnWall())
+		else if (Input.IsActionJustPressed("jump") && IsOnWall()) //If against wall, not against wall AND jump attempted
+																  //The "if !IsOnFloor" is provided by the initial query in the function (line 34)
 		{
 			var wallPos = GetLastSlideCollision().GetPosition();
+			//Get position of object that was just collided with
 
-			velocity.Y = JumpVelocity;
-			if (wallPos.X < Position.X)
+			velocity.Y = JumpVelocity; //Jump
+			if (wallPos.X < Position.X) //If wall that was just hit is to the left
 			{
-				velocity.X = JumpVelocity * (float)-0.5;
-				GD.Print("Left");
+				velocity.X = JumpVelocity * (float)-0.5; //Move away from wall
 			}
-			else
+			else //If wall that was just hit is to the right
 			{
-				velocity.X = JumpVelocity * (float)0.5;
-				GD.Print("Right");
+				velocity.X = JumpVelocity * (float)0.5; //Move away from wall
 			}
 		}
 
-		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
+		//Left / Right movement
 		Vector2 direction = Input.GetVector("move_left", "move_right", "jump", "ui_down");
-		if (direction != Vector2.Zero && IsOnFloor())
+		//Resolve vector from pressed movement keys
+
+		if (direction != Vector2.Zero && IsOnFloor()) //If movement keys pressed AND on floor
 		{
-			velocity.X = direction.X * Speed;
+			velocity.X = direction.X * Speed; //Turn lateral movement keys into velocity
 		}
-		else if (direction != Vector2.Zero && !IsOnFloor())
+		else if (direction != Vector2.Zero && !IsOnFloor()) //If movement keys pressed AND NOT on floor
 		{
-			velocity.X += (Speed * (float)0.05) * direction.X;
+			velocity.X += (Speed * (float)0.05) * direction.X; //Lateral acceleration instead of instant velocity
 			velocity.X = Mathf.Clamp(velocity.X, -Speed, Speed);
+			//Clamp speed so Bucket travels at the same max speed in the air and on the ground
 		}
-		else if (direction == Vector2.Zero && IsOnFloor())
+		else if (direction == Vector2.Zero && IsOnFloor()) //If not moving AND on floor
 		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed); //This was preset, it stops the character
 		}
 
-		Velocity = velocity;
-		MoveAndSlide();
+		Velocity = velocity; //Change variable to Godot value
+		MoveAndSlide(); //Process movement commands
 
-
+		//Animations
 		var animate = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
-		if (velocity.Y > 0)
+		if (velocity.Y > 0) //If falling
 		{
 			animate.Play();
 			animate.Animation = "Fall";
 
-			animate.FlipH = (velocity.X < 0);
+			if (velocity.X != 0) //If X velocity is NOT 0
+								 //This is here to preserve the direction Bucket is looking in when jumping while otherwise stationary
+			{
+				animate.FlipH = (velocity.X < 0); //Flip animation image if moving left
+			}
 		}
-		else if (velocity.X != 0)
+		else if (velocity.X != 0) //When moving laterally
 		{
 			animate.Play();
 			animate.Animation = "Walk";
 
-			animate.FlipH = (velocity.X < 0);
+			animate.FlipH = (velocity.X < 0); //Flip animation image if moving left
 		}
 		else
 		{
 			animate.Play();
-			animate.Animation = "Stand";
+			animate.Animation = "Stand"; //Standing still
 		}
 	}
 }
