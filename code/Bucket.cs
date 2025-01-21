@@ -35,13 +35,14 @@ public partial class Bucket : CharacterBody2D
 		{
 			velocity.Y = JumpVelocity; //Jump
 		}
-		else if (Input.IsActionJustPressed("jump") && IsOnWall()) //If against wall, not against wall AND jump attempted
-																  //The "if !IsOnFloor" is provided by the initial query in the function (line 34)
+		else if (Input.IsActionJustPressed("jump") && IsOnWall() && !IsOnFloor()) //If against wall, not against wall AND jump attempted
+																				  //The "if !IsOnFloor" is provided by the initial query in the function (line 34)
 		{
+			velocity.Y = JumpVelocity; //Jump
+
 			var wallPos = GetLastSlideCollision().GetPosition();
 			//Get position of object that was just collided with
 
-			velocity.Y = JumpVelocity; //Jump
 			if (wallPos.X < Position.X) //If wall that was just hit is to the left
 			{
 				velocity.X = JumpVelocity * (float)-0.5; //Move away from wall
