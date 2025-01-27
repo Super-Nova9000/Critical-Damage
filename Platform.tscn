@@ -3,13 +3,15 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i5o15"]
 size = Vector2(96, 96)
 
-[node name="Wall" type="StaticBody2D"]
+[node name="Wall" type="Node2D"]
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
 offset_left = -48.0
 offset_top = -48.0
 offset_right = 48.0
 offset_bottom = 48.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource("RectangleShape2D_i5o15")

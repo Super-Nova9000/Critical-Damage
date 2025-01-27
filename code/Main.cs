@@ -23,21 +23,40 @@ public partial class Main : Node2D
 		filePath = Path.Combine(filePath, "levels", lvlNum); //Set target to file from lvlNum
 
 		var lvlImage = Image.LoadFromFile(filePath); //Load image
-		int[] imgDims = { lvlImage.GetWidth(), lvlImage.GetHeight() };
+		int[] imgDims = { lvlImage.GetWidth() - 1, lvlImage.GetHeight() - 1 };
 
 		for (int i = 0; i <= imgDims[0]; i++) //Pointer X axis
 		{
 			for (int j = 0; j <= imgDims[1]; j++) //Pointer Y axis
 			{
-				var coords = new Vector2I(i, j);
-				Color colour = lvlImage.GetPixelv(coords);
+				var coords = new Vector2I(i, j); //Generate coordinates as type Vector2I for following line
+				Color colour = lvlImage.GetPixelv(coords); //Get the colour of the pixel at stated coordinates
 				processColour(colour, i, j);
 			}
 		}
 	}
 
-	public void processColour(Color colour, int x, int y)
+	public void processColour(Color colour, int x, int y) //Figure out what the colour at coordinate refers to, and place the corresponding object there
 	{
-		float[] rgb = { (colour[0] * 255), (colour[1] * 255), (colour[2] * 255), (colour[3] * 255) };
+		string hexColour = (colour.R8).ToString("X") + (colour.G8).ToString("X") + (colour.B8).ToString("X"); //Convert stated colour from RGB to Hex
+
+		x = (x * 96) + 48;
+		y = (y * 96) + 48; //Change coordinates from pixels to tiles
+
+		PackedScene scene;
+
+		if (hexColour == "FFFFFF") //If pixel white
+		{
+			scene = GD.Load<PackedScene>("res://Platform.tscn"); //Create instance of platform
+		}
+		else
+		{
+			scene = GD.Load<PackedScene>("res://Exception.tscn"); //Temporary scene if no others valid
+		}
+
+		var placeMe = (Node2D)scene.Instantiate(); //Instantiate the stated scene
+		AddChild(placeMe); //Spawn scene
+		placeMe.Position = new Godot.Vector2(x, y); //Set position of scene
+
 	}
 }
