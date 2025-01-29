@@ -4,7 +4,7 @@ using System;
 public partial class Bucket : CharacterBody2D
 {
 	public const float Speed = 300.0f;
-	public const float JumpVelocity = -400.0f;
+	public const float JumpVelocity = -575.0f;
 
 	private float flySpeed = 0;
 
@@ -13,11 +13,11 @@ public partial class Bucket : CharacterBody2D
 		Vector2 velocity = Velocity;
 
 		//Gravity
-		if (!IsOnFloor() && !IsOnWall()) //If not on floor AND not on ground
+		if (!IsOnFloor() && !IsOnWall()) //If not on floor AND not on wall
 		{
 			velocity += GetGravity() * (float)delta; //Accelerate under gravity
 		}
-		else if (!IsOnFloor() && IsOnWall()) //If not on floor BUT on ground
+		else if (!IsOnFloor() && IsOnWall()) //If not on floor BUT on wall
 		{
 			if (Velocity.Y < 0) //If moving upwards
 			{
@@ -35,8 +35,7 @@ public partial class Bucket : CharacterBody2D
 		{
 			velocity.Y = JumpVelocity; //Jump
 		}
-		else if (Input.IsActionJustPressed("jump") && IsOnWall() && !IsOnFloor()) //If against wall, not against wall AND jump attempted
-																				  //The "if !IsOnFloor" is provided by the initial query in the function (line 34)
+		else if (Input.IsActionJustPressed("jump") && IsOnWall() && !IsOnFloor()) //If against wall, not on floor AND jump attempted
 		{
 			velocity.Y = JumpVelocity; //Jump
 

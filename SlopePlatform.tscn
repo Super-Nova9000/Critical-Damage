@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://chs6i71qmuc13"]
+
+[node name="Slope" type="Node2D"]
+metadata/_edit_group_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D"]
+scale = Vector2(-4.8, 4.8)
+polygon = PackedVector2Array(-10, -10, 10, 10, -10, 10)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+scale = Vector2(-4.8, 4.8)
+polygon = PackedVector2Array(10, 10, -10, 10, -10, -10)
