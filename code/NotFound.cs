@@ -2,12 +2,12 @@ using Godot;
 using System;
 using System.Collections;
 
-public partial class Exception : Node2D
+public partial class NotFound : Node2D
 {
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		QueueFree();
+		QueueFree(); //Kill this scene as soon as it's created
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
