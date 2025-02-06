@@ -11,7 +11,7 @@ public partial class Main : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		levelPlace(lvlNum);
+		LevelPlace(lvlNum);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -19,22 +19,22 @@ public partial class Main : Node2D
 	{
 	}
 
-	private void levelPlace(string lvlNum)
+	private void LevelPlace(string lvlNum)
 	{
-		getImage(lvlNum);
+		GetImage(lvlNum);
 		int[] imgDims = { lvlImage.GetWidth() - 1, lvlImage.GetHeight() - 1 };
 
 		for (int i = 0; i <= imgDims[0]; i++) //Pointer X axis
 		{
 			for (int j = 0; j <= imgDims[1]; j++) //Pointer Y axis
 			{
-				var colour = getColour(i, j); //Get the colour of the pixel at stated coordinates
-				processColour(colour, i, j);
+				var colour = GetColour(i, j); //Get the colour of the pixel at stated coordinates
+				ProcessColour(colour, i, j);
 			}
 		}
 	}
 
-	private void processColour(string colour, int x, int y) //Figure out what the colour at coordinate refers to, and place the corresponding object there
+	private void ProcessColour(string colour, int x, int y) //Figure out what the colour at coordinate refers to, and place the corresponding object there
 	{
 		x = (x * 96) + 48;
 		y = (y * 96) + 48; //Change coordinates from pixels to tiles
@@ -51,8 +51,12 @@ public partial class Main : Node2D
 			tileType = "SlopePlatform";
 			flipMe = (colour == "06464"); //Flip slope on turquoise pixel
 		}
+		else if (colour == "EA6B70")
+		{
+			tileType = "Enemy";
+		}
 
-		GD.Print(colour);
+		if (colour != "000" && colour != "FFFFFF") { GD.Print(colour); }
 
 		var scene = GD.Load<PackedScene>("res://" + tileType + ".tscn"); //Load instance of tileType
 		var placeMe = (Node2D)scene.Instantiate(); //Instantiate the loaded scene
@@ -67,17 +71,17 @@ public partial class Main : Node2D
 
 	}
 
-	private string getColour(int x, int y) //Returns the Hex colour at a given pixel
+	private string GetColour(int x, int y) //Returns the Hex colour at a given pixel
 	{
 		var coords = new Vector2I(x, y); //Change provided coordinates into type Vector2I
 		var colour = lvlImage.GetPixelv(coords); //Get the colour as type Color (RGB)
 		return ((colour.R8).ToString("X") + (colour.G8).ToString("X") + (colour.B8).ToString("X")); //Change type Color into String and from RGB to Hex
 	}
-	private void getImage(string lvlNum) //Sets the global variable lvlImage that stores the level data
+	private void GetImage(string lvlNum) //Sets the global variable lvlImage that stores the level data
 	{
-		lvlNum = "lvl" + lvlNum + ".png"; //Format number into file name
+		string imgName = "lvl" + lvlNum + ".png"; //Format number into file name
 		string filePath = Directory.GetCurrentDirectory(); //Find path of root folder
-		filePath = Path.Combine(filePath, "levels", lvlNum); //Set target to file in lvlNum
+		filePath = Path.Combine(filePath, "levels", imgName); //Set target to file in lvlNum
 
 		lvlImage = Image.LoadFromFile(filePath); //Load and set image
 	}

@@ -1,16 +1,20 @@
 using Godot;
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 public partial class Bucket : CharacterBody2D
 {
+
 	public const float Speed = 300.0f;
 	public const float JumpVelocity = -575.0f;
 
+	private int health = 100;
 	private float flySpeed = 0;
 
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 velocity = Velocity;
+		var collisionData = GetLastSlideCollision();
 
 		//Gravity
 		if (!IsOnFloor() && !IsOnWall()) //If not on floor AND not on wall
@@ -39,7 +43,7 @@ public partial class Bucket : CharacterBody2D
 		{
 			velocity.Y = JumpVelocity; //Jump
 
-			var wallPos = GetLastSlideCollision().GetPosition();
+			var wallPos = collisionData.GetPosition();
 			//Get position of object that was just collided with
 
 			if (wallPos.X < Position.X) //If wall that was just hit is to the left
@@ -100,5 +104,19 @@ public partial class Bucket : CharacterBody2D
 			animate.Play();
 			animate.Animation = "Stand"; //Standing still
 		}
+	}
+
+	public void Damage(int magnitude)
+	{
+		int temp = health - magnitude;
+		if (temp < 0)
+		{
+			health = 0;
+		}
+		else
+		{
+			health = temp;
+		}
+		GD.Print(health);
 	}
 }
