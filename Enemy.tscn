@@ -18,6 +18,7 @@ animations = [{
 size = Vector2(96, 96)
 
 [node name="Node2D" type="CharacterBody2D"]
+slide_on_ceiling = false
 script = ExtResource("1_8whl5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

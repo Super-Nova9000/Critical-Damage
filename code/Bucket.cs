@@ -11,6 +11,10 @@ public partial class Bucket : CharacterBody2D
 	private int health = 100;
 	private float flySpeed = 0;
 
+	public override void _Ready()
+	{
+	}
+
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 velocity = Velocity;
