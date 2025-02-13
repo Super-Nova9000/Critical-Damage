@@ -5,24 +5,27 @@ using System.Threading;
 
 public partial class Enemy : CharacterBody2D
 {
-	[Export]
-	public Bucket bucket;
-	public int yomama = 0;
+	private Bucket bucket;
+	private Godot.Timer attackTimer;
+
 	public override void _Ready()
 	{
 		var root = GetParent();
 		bucket = (Bucket)root.GetNode("Bucket"); //Retrieve Bucket
-		GD.Print(bucket);
+
+		attackTimer = GetNode<Godot.Timer>("AttackTimer");
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		var collisionData = GetLastSlideCollision(); //Get collision data
-		GD.Print("AAAAAAAAAAA0");
 
-		if ((collisionData.GetCollider()).Equals(bucket)) //If collider is Bucket
+		if (collisionData != null && collisionData.GetCollider() == bucket && attackTimer.TimeLeft == 0) //If collider is Bucket
 		{
 			bucket.Damage(5); //Hurt Bucket
+			attackTimer.Start();
 		}
+
+		MoveAndSlide();
 	}
 }

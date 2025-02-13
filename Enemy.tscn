@@ -26,3 +26,6 @@ sprite_frames = SubResource("SpriteFrames_6lv1x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_cb3st")
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true

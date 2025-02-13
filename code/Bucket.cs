@@ -17,6 +17,8 @@ public partial class Bucket : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
+		#region Movement
+
 		Vector2 velocity = Velocity;
 		var collisionData = GetLastSlideCollision();
 
@@ -82,7 +84,10 @@ public partial class Bucket : CharacterBody2D
 		Velocity = velocity; //Change variable to Godot value
 		MoveAndSlide(); //Process movement commands
 
-		//Animations
+		#endregion
+
+		#region Animation
+
 		var animate = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
 		if (velocity.Y > 0) //If falling
@@ -108,6 +113,8 @@ public partial class Bucket : CharacterBody2D
 			animate.Play();
 			animate.Animation = "Stand"; //Standing still
 		}
+
+		#endregion
 	}
 
 	public void Damage(int magnitude)

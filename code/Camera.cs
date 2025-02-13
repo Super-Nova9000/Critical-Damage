@@ -13,7 +13,6 @@ public partial class Camera : Camera2D
 	{
 		var root = GetParent();
 		var bucket = (Node2D)root.GetNode("Bucket"); //Interact with Bucket
-
 		float x = bucket.Position[0]; //Set to Bucket's position
 		if (x < 960) //If Bucket is too far left
 		{
