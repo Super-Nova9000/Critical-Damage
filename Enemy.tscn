@@ -29,3 +29,6 @@ shape = SubResource("RectangleShape2D_cb3st")
 
 [node name="AttackTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="PatrolTimer" type="Timer" parent="."]
+one_shot = true

@@ -128,6 +128,9 @@ public partial class Bucket : CharacterBody2D
 		{
 			health = temp;
 		}
-		GD.Print(health);
+	}
+	public Vector2 GetPos()
+	{
+		return Position;
 	}
 }
