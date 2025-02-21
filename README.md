@@ -19,11 +19,11 @@ Your ship is absoloutely wrecked, again due to the aforementioned crash, and the
 -LIFE SUPPORT SYSTEMS - PARTIAL OUTAGE
 
 ----OXYGEN - OPERATIONAL
-    
+	
 ----HEATING - OPERATIONAL
 
 ----AIR PRESSURE - DEGRADED
-    
+	
 ----CO2 SCRUBBING - FAILURE
 
 ----WATER RECYCLING - PARTIAL OUTAGE
