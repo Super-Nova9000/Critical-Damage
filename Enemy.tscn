@@ -32,3 +32,11 @@ one_shot = true
 
 [node name="PatrolTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="RayCastR" type="RayCast2D" parent="."]
+position = Vector2(48, 48)
+target_position = Vector2(0, 100)
+
+[node name="RayCastL" type="RayCast2D" parent="."]
+position = Vector2(-48, 48)
+target_position = Vector2(0, 100)

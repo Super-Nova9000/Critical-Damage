@@ -8,6 +8,7 @@ public partial class Enemy : CharacterBody2D
 	private Bucket bucket;
 	private Godot.Timer attackTimer;
 	private Godot.Timer patrolTimer;
+	private Godot.RayCast2D rayCast;
 
 	public const float Speed = 100.0f;
 	public const float JumpVelocity = -575.0f;
@@ -24,6 +25,8 @@ public partial class Enemy : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
+		Vector2 velocity;
+
 		var collisionData = GetLastSlideCollision(); //Get collision data
 		Vector2 bucketPos = bucket.GetPos();
 
@@ -37,12 +40,37 @@ public partial class Enemy : CharacterBody2D
 		bool agro = isInRange(bucketPos);
 		if (agro)
 		{
-			Velocity = playerAgro(bucketPos, (float)delta);
+			velocity = Agro(bucketPos, (float)delta);
 		}
 		else
 		{
-			Velocity = Vector2.Zero; //Make player idle
+			velocity = Vector2.Zero; //Make player idle
 		}
+
+		string castSide = null;
+		if (velocity[0] < 0) //Change position of rayCast based on what direction enemy is moving
+		{
+			castSide = "RayCastL";
+		}
+		else if (velocity[0] > 0)
+		{
+			castSide = "RayCastR";
+		}
+
+		GD.Print(castSide);
+
+		if (castSide != null)
+		{
+			rayCast = GetNode<Godot.RayCast2D>(castSide);
+
+			if (!rayCast.IsColliding()) { velocity = new Vector2(0, velocity[1]); }
+		}
+		else
+		{
+			velocity = new Vector2(0, velocity[1]);
+		}
+
+		Velocity = velocity;
 
 		MoveAndSlide();
 	}
@@ -60,7 +88,7 @@ public partial class Enemy : CharacterBody2D
 		return (inRangeX && inRangeY);
 		//return result
 	}
-	private Vector2 playerAgro(Vector2 tarPos, float delta) //Controls enemy when agro'ed onto bucket
+	private Vector2 Agro(Vector2 tarPos, float delta) //Controls enemy when agro'ed onto bucket
 	{
 		Vector2 velocity; //Holds behaviour
 		bool invVel = tarPos[0] < Position[0]; //If bucket on L/R side
@@ -83,6 +111,7 @@ public partial class Enemy : CharacterBody2D
 		{
 			velocity = new Vector2(velocity[0], JumpVelocity * (float)delta); //Jump
 		}
+
 		return velocity;
 	}
 }
