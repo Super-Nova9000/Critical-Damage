@@ -60,15 +60,14 @@ public partial class Main : Node2D
 
 		var scene = GD.Load<PackedScene>("res://" + tileType + ".tscn"); //Load instance of tileType
 		var placeMe = (Node2D)scene.Instantiate(); //Instantiate the loaded scene
-		AddChild(placeMe); //Spawn scene
 		placeMe.Position = new Godot.Vector2(x, y); //Set position of scene
+		AddChild(placeMe); //Spawn scene
 
 		if (flipMe)
 		{
 			var scale = new Vector2(-1, 1); //Invert X scaling
 			placeMe.Scale = scale; //Set new scale
 		}
-
 	}
 
 	private string GetColour(int x, int y) //Returns the Hex colour at a given pixel

@@ -31,6 +31,7 @@ shape = SubResource("RectangleShape2D_cb3st")
 one_shot = true
 
 [node name="PatrolTimer" type="Timer" parent="."]
+wait_time = 2.0
 one_shot = true
 
 [node name="RayCastR" type="RayCast2D" parent="."]
