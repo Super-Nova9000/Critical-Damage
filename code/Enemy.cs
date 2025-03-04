@@ -11,11 +11,11 @@ public partial class Enemy : CharacterBody2D
 {
 	Random rnd = new Random(); //Random numbers class
 	private Bucket bucket; //Bucket
+	private Godot.RayCast2D rayCast; //Raycast to stop from falling off things
 	private Godot.Timer attackTimer; //Timer to space out attacks
 	private Godot.Timer patrolTimer; //Timer to take a break while idling
-	private Godot.RayCast2D rayCast; //Raycast to stop from falling off things
 	private int target; //Target position in tiles
-	public Godot.Vector2 startPos; //Starting position as a vector2
+	private Godot.Vector2 startPos; //Starting position as a vector2
 
 	public const float Speed = 200.0f; //Max speed of enemy
 
@@ -23,11 +23,12 @@ public partial class Enemy : CharacterBody2D
 	{
 		var root = GetParent();
 		bucket = (Bucket)root.GetNode("Bucket"); //Retrieve Bucket
-		startPos = Position;
 
 		attackTimer = GetNode<Godot.Timer>("AttackTimer");
 		patrolTimer = GetNode<Godot.Timer>("PatrolTimer");
 		//Get timers
+
+		startPos = Position;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -103,21 +104,19 @@ public partial class Enemy : CharacterBody2D
 	{
 		int tilePos = (int)(Position[0] / 96); //Convert current position into tiles
 
-		if (tilePos == target || patrolTimer.TimeLeft != 0) //Check if enemy is at target, or that the enemy is still taking a break
+		if (patrolTimer.TimeLeft != 0) //Check if enemy is at target, or that the enemy is still taking a break
 		{
-			if (patrolTimer.TimeLeft != 0) //If enemy is still taking a break
-			{
-				idleVelocity[0] = 0;
-			}
-			else
-			{
-				patrolTimer.Start(); //Take a break
-				NewTarget(); //Get a new target
-			}
+			idleVelocity[0] = 0;
 		}
+		else if (tilePos == target)
+		{
+			patrolTimer.Start(); //Take a break
+			NewTarget(); //Get a new target			
+		}
+
 		else //If not at target, or taking a break
 		{
-			if (tilePos > target) //If target on left
+			if (tilePos > target) //If target on leftq
 			{
 				idleVelocity[0] = -Speed / 2; //Move left at half speed
 			}
